@@ -1,0 +1,27 @@
+Package: qacDR
+Type: Package
+Title: Principal Components, Factor Analysis, and Clustering Tools
+Version: 0.1.0
+Authors@R: person("Rob", "Kabacoff", role=c("aut", "cre"), email="rkabacoff@wesleyan.edu")
+Description: Perform principal components analysis and iterated principal
+    axis factor analysis with visualizations. There are additional tools
+    for use in cluster analysis.
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    ggplot2,
+    tidyr,
+    GPArotation,
+    psych,
+    scales,
+    dplyr,
+    factoextra
+Depends: R (>= 3.3.0)
+Suggests: 
+    testthat,
+    knitr,
+    rmarkdown
+RoxygenNote: 7.1.2
+VignetteBuilder: knitr
+BugReports: https://github.com/rkabacoff/qacDR/issues
+License: GPL-3

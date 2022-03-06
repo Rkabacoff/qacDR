@@ -1,0 +1,104 @@
+---
+title: "Performing PCA and FA"
+author: "Rob Kabacoff"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Performing PCA and FA}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The **qacDR** package provides functions for principal components and common factor analysis. Based on the William Revelle's comprehensive \link[psych]{https://cran.r-project.org/web/packages/psych/index.html} package, the \code{factorAnalysis} package provides simplified input, intuitive output, and easily interpretable graphs, making these techniques more accessible to data analysts new to these forms of analysis.
+
+## Principal Components Analysis
+
+Let's perform a principal components analysis on some ratings data. First we'll import the data into R.
+
+```{r}
+# input data
+ratings <- read.csv("https://www.promptcloud.com/wp-content/uploads/2017/02/EFA.csv")
+head(ratings)
+```
+
+Next, well create a scree plot of the data.
+
+```{r fig.width=6, fig.height=6}
+library(qacDR)
+
+# scree plot
+screePlot(ratings)
+```
+
+The scree plot suggests four components. In the next step, we'll extract four principal components and rotate them using a *varimax* rotation.
+
+```{r fig.width=6, fig.height=6}
+# extract 2 principal components
+fit.pca <- PCA(ratings, nfactor=4, rotate="varimax")
+```
+
+The four components account for 55% of the variance in the original data. Next, we'll plot the pattern matrix as both a table and a bar chart.
+
+```{r fig.width=6, fig.height=6}
+# plot factor pattern as bar chart
+plot(fit.pca, sort=TRUE)
+
+# plot factor pattern as a table
+plot(fit.pca, sort=TRUE, type="table")
+```
+
+Finally, we'll add the component scores to the original data.
+
+```{r}
+# save component scores
+mydata <- score(ratings, fit.pca)
+head(mydata)
+```
+
+## Factor Analysis
+
+In this section, the ratings data are re-analyzed using a *maximum likelihood* factor analysis.
+
+Again, we'll start with a scree plot. This time we'll run 200 simulations. A random number seed is set to assure reproducability.
+
+```{r fig.height=6, fig.width=6, message=FALSE, warning=FALSE, message=FALSE}
+library(qacDR)
+
+# scree plot
+set.seed(1234)
+screePlot(ratings, method = "ml", n.iter=200)
+```
+
+Again, the scree plot suggests two factors. In the next step, we'll extract four factors and rotate them using a *promax* rotation.
+
+```{r fig.width=6, fig.height=6}
+# extract 4 factors
+fit.fa <- FA(ratings, nfactor=4, rotate="promax", fm="ml")
+```
+
+The printout includes the factor pattern, the factor structure, and the factor intercorrelations. The four factors account for 40% of the variance in the original data. The largest factor intercorrelation is between factor 1 and factor 3 (0.37) .
+
+Next, we'll plot the pattern matrix as both a table and a bar chart.
+
+```{r fig.width=6, fig.height=6}
+# plot factor pattern as table
+plot(fit.fa, sort=TRUE)
+
+# plot factor pattern as bar chart
+plot(fit.fa, sort=TRUE, type="table")
+```
+
+Finally, we'll add the factor scores to the original data.
+
+```{r}
+# save component scores
+mydata <- score(ratings, fit.fa)
+head(mydata)
+```
