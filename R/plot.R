@@ -27,19 +27,29 @@ plot.factorAnalysis <- function(x, y, ..., sort=FALSE, type=c("bar", "table")) {
 
   type <- match.arg(type)
   x <- x$loadings
-  x <- as.matrix(x)
   factors <- ncol(x)
 
-  if (sort == TRUE) {
-    x <- unclass(x)
-    p <- nrow(x)
+  # function to sort loadings
+  sort_loadings <- function(x){
     mx <- max.col(abs(x))
-    ind <- cbind(1L:p, mx)
-    #mx[abs(x[ind]) < 0.5] <- factors + 1
-    x <- x[order(mx, 1L:p), ]
+    xlist <- split(x, mx)
+    lnames <- names(xlist)
+    result <- NULL
+    for(i in lnames){
+      df <- xlist[[i]]
+      varnum <- as.numeric(i)
+      ord <- order(-abs(df[, varnum]))
+      df <- df[ord, ]
+      result <- rbind(result, df)
+    }
+    return(result)
   }
 
-  x <- as.data.frame(x)
+  if (sort == TRUE) {
+    x <- sort_loadings(x)
+  }
+
+  #x <- as.data.frame(x)
   x$var <- row.names(x)
 
   facorder <- rev(x$var)
