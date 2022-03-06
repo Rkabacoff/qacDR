@@ -1,6 +1,6 @@
 #' Scree Test
 #'
-#' \code{screePlot} generates a scree plot with superimpose parallel analysis
+#' \code{scree_plot} generates a scree plot with superimpose parallel analysis
 #'
 #' @param data a data frame or correlation matrix.
 #' @param n.iter number of iterations for parallel analysis.
@@ -8,7 +8,7 @@
 #' @param ... parameters passed to \code{psych::fa.parallel}.
 #'
 #' @details
-#' The \code{screePlot} function is a wrapper for the \code{psych::parallel} function.
+#' The \code{scree_plot} function is a wrapper for the \code{psych::parallel} function.
 #' A ggplot2 graph is produced with the scree plot and parallel analysis (scree plot for
 #' simulated data) based on the method chosen. The methods are principal components ("pc"),
 #' principal axis ("pa"), and maximum likelihood ("ml") factoring.
@@ -21,8 +21,8 @@
 #'
 #' @return a ggplot2 graph
 #' @examples
-#' screePlot(Harman74.cor$cov, method="pc", n.obs=145)
-screePlot <- function(data, n.iter = 50, method = c("pc", "pa", "ml"), ...) {
+#' scree_plot(Harman74.cor$cov, method="pc", n.obs=145)
+scree_plot <- function(data, n.iter = 50, method = c("pc", "pa", "ml"), ...) {
 
   n <- type <- NULL # for CRAN
   # number of variables

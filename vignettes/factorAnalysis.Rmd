@@ -34,7 +34,7 @@ Next, well create a scree plot of the data.
 library(qacDR)
 
 # scree plot
-screePlot(ratings)
+scree_plot(ratings)
 ```
 
 The scree plot suggests four components. In the next step, we'll extract four principal components and rotate them using a *varimax* rotation.
@@ -73,7 +73,7 @@ library(qacDR)
 
 # scree plot
 set.seed(1234)
-screePlot(ratings, method = "ml", n.iter=200)
+scree_plot(ratings, method = "ml", n.iter=200)
 ```
 
 Again, the scree plot suggests two factors. In the next step, we'll extract four factors and rotate them using a *promax* rotation.
